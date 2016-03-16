@@ -39,7 +39,8 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
                     HDF5 file generated from spinnaker simulation.
             inputdata_nest:
                 type: application/unknown
-                description: Input file that contains spiking data from a
+                description: |
+                    Input file that contains spiking data from a
                     HDF5 file from nest simulation.
             run_script:
                 type: application/unkown
@@ -50,7 +51,6 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
             num_tasks:
                 type: long
                 description: Number of tasks which will be run on the HPC.
-
         Returns:
             res: application/unknown
     '''
