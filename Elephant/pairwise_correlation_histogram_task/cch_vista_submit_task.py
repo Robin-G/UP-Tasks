@@ -69,9 +69,9 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
             'Data': load_local_file('{0}'.format(run_script_path))}
     collect_script = {'To': 'collect.py',
                       'Data': load_local_file('{0}'.format(collect_script_path))}
-    h5_script = {'To': '{0}'.format(os.path.split(wrapper_path)[1]),
+    h5_script = {'To': '{0}'.format(wrapper_path),
                  'Data': load_local_file(
-                     '{0}'.format(os.path.split(wrapper_path))[1])}
+                     '{0}'.format(wrapper_path))}
     spinnaker_data = {'To': '{0}'.format(os.path.split(spinnaker_data_path)[1]),
                       'Data': load_local_file('{0}'.format(spinnaker_data_path))}
     nest_data = {'To': '{0}'.format(os.path.split(nest_data_path)[1]),
@@ -136,5 +136,8 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
 if __name__ == '__main__':
     inputdata_spinnaker = tt.URI('application/unknown', 'spikes_L5E.h5')
     inputdata_nest = tt.URI('application/unknown', 'spikes_L5E.h5')
-    script = ''
-    cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, script, script)
+    script_run = tt.URI('text/x-python', 'cch_cluster_spinnest.py')
+    script_collect = tt.URI('text/x-python', 'cch_collect_spinnest.py')
+    num_task = 100
+    cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, script_run,
+                          script_collect, num_task)
