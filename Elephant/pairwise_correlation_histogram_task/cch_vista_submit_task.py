@@ -43,10 +43,10 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
                     Input file that contains spiking data from a
                     HDF5 file from nest simulation.
             run_script:
-                type: application/unknown
+                type: text/x-python
                 description: Script which will be executed on an HPC.
             collect_script:
-                type: application/unknown
+                type: text/x-python
                 description: Script which will be executed on an HPC.
             num_tasks:
                 type: long
@@ -55,17 +55,11 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
             res: application/unknown
     '''
     # Get paths
-    # Data
     spinnaker_data_path = cch_vista_submit_task.task.uri.get_file(
         inputdata_spinnaker)
     nest_data_path = cch_vista_submit_task.task.uri.get_file(inputdata_nest)
-    # run script
-    run_script = 'cch_cluster_spinnest.py'
-    run_script_path = os.path.join(os.path.dirname(__file__), run_script)
-    # run_script_path = cch_vista_submit_task.task.uri.get_file(run_script)
-    collect_script = 'cch_collect_spinnest.py'
-    collect_script_path = os.path.join(os.path.dirname(__file__), collect_script)
-    # collect_script_path = cch_vista_submit_task.task.uri.get_file(collect_script)
+    run_script_path = cch_vista_submit_task.task.uri.get_file(run_script)
+    collect_script_path = cch_vista_submit_task.task.uri.get_file(collect_script)
     # Load h5 wrapper
     h5_wrapper = 'wrapper.py'
     wrapper_path = os.path.join(os.path.dirname(__file__), h5_wrapper)
