@@ -26,7 +26,7 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
         Caption: cch_vista_submit_task
         Author: Elephant-Developers
         Description: |
-            This task submitts a script to an HPC, calculates the pairwise 
+            This task submits a script to an HPC, calculates the pairwise
             correlation and stores an p-value significance matrix, which can be 
             read in by the `vista` visualization framework.
         Categories:
@@ -43,10 +43,10 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
                     Input file that contains spiking data from a
                     HDF5 file from nest simulation.
             run_script:
-                type: application/unkown
+                type: application/unknown
                 description: Script which will be executed on an HPC.
             collect_script:
-                type: application/unkown
+                type: application/unknown
                 description: Script which will be executed on an HPC.
             num_tasks:
                 type: long
@@ -55,11 +55,17 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
             res: application/unknown
     '''
     # Get paths
+    # Data
     spinnaker_data_path = cch_vista_submit_task.task.uri.get_file(
         inputdata_spinnaker)
     nest_data_path = cch_vista_submit_task.task.uri.get_file(inputdata_nest)
-    run_script_path = cch_vista_submit_task.task.uri.get_file(run_script)
-    collect_script_path = cch_vista_submit_task.task.uri.get_file(collect_script)
+    # run script
+    run_script = 'cch_cluster_spinnest.py'
+    run_script_path = os.path.join(os.path.dirname(__file__), run_script)
+    # run_script_path = cch_vista_submit_task.task.uri.get_file(run_script)
+    collect_script = 'cch_collect_spinnest.py'
+    collect_script_path = os.path.join(os.path.dirname(__file__), collect_script)
+    # collect_script_path = cch_vista_submit_task.task.uri.get_file(collect_script)
     # Load h5 wrapper
     h5_wrapper = 'wrapper.py'
     wrapper_path = os.path.join(os.path.dirname(__file__), h5_wrapper)
