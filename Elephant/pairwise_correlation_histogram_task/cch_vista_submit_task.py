@@ -111,7 +111,7 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
     base_url = unicore_client.get_sites()['JURECA']['url']
     job_url = unicore_client.submit(os.path.join(base_url, 'jobs'), job, auth,
                                     inputs)
-    print "Submitting to {}".format(job_url)
+    print "Submitting to {0}".format(job_url)
     unicore_client.wait_for_completion(job_url, auth,
                                        refresh_function=cch_vista_submit_task.task.uri.get_oauth_token)
 
