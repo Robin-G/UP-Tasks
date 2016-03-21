@@ -61,8 +61,7 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
     run_script_path = cch_vista_submit_task.task.uri.get_file(run_script)
     collect_script_path = cch_vista_submit_task.task.uri.get_file(collect_script)
     # Load h5 wrapper
-    h5_wrapper = 'wrapper.py'
-    wrapper_path = os.path.join(os.path.dirname(__file__), h5_wrapper)
+    wrapper_path = 'wrapper.py'
 
     # Preparing for unicore submission
     code = {'To': 'input.py',
@@ -90,7 +89,7 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
                           'nest_data': os.path.split(nest_data_path)[1],
                           'NUM_TASKS': str(num_tasks),
                           }
-    job['Resources'] = {'ArraySize': str(num_tasks)}
+    job['Resources'] = {'ArraySize': str(num_tasks), 'Runtime': '3h'}
     job['Execution environment'] = {'Name': 'Elephant',
                                     'PostCommands': ['COLLECT']}
 

@@ -225,7 +225,8 @@ f.close()
 
 # Remove folder with all intermediate h5 files
 import shutil
-shutil.rmtree('./results/release_demo')
+if os.path.exists('./results/release_demo'):
+    shutil.rmtree('./results/release_demo')
 # Remove json file
 if os.path.exists('data_paths.json'):
     os.remove('data_paths.json')
