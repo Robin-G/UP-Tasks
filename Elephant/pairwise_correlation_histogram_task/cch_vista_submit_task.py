@@ -71,9 +71,9 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
     h5_script = {'To': '{0}'.format(wrapper_path),
                  'Data': load_local_file(
                      '{0}'.format(wrapper_path))}
-    spinnaker_data = {'To': '{0}'.format(os.path.split(spinnaker_data_path)[1]),
+    spinnaker_data = {'To': 'spinnaker_data.h5',
                       'Data': load_local_file('{0}'.format(spinnaker_data_path))}
-    nest_data = {'To': '{0}'.format(os.path.split(nest_data_path)[1]),
+    nest_data = {'To': 'nest_data.h5',
                  'Data': load_local_file('{0}'.format(nest_data_path))}
     inputs = [code, collect_script, h5_script, spinnaker_data, nest_data]
 
@@ -85,8 +85,8 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
     job = dict()
     job['ApplicationName'] = 'Elephant'
     job['Environment'] = {'INPUT': 'input.py',
-                          'spinnaker_data': os.path.split(spinnaker_data_path)[1],
-                          'nest_data': os.path.split(nest_data_path)[1],
+                          'spinnaker_data': 'spinnaker_data.h5',
+                          'nest_data': 'nest_data.h5',
                           'NUM_TASKS': str(num_tasks),
                           }
     job['Resources'] = {'ArraySize': str(num_tasks), 'Runtime': '3h'}
