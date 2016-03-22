@@ -19,38 +19,48 @@ def load_local_file(name):
 
 @task
 def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
-                          collect_script, num_tasks):
+                          collect_script, num_tasks=100):
     '''
         Task Manifest Version: 1
         Full Name: cch_vista_submit_task
         Caption: cch_vista_submit_task
         Author: Elephant-Developers
         Description: |
-            This task submits a script to an HPC, calculates the pairwise
-            correlation and stores an p-value significance matrix, which can be 
-            read in by the `vista` visualization framework.
+            This task submits a script to an HPC resource (JURECA), which
+            calculates the pairwise cross-correlation histogram between all
+            pairs of input spike trains for both the SpiNNaker and NEST
+            simulated modules. The significance is calculated based on
+            1000 spike train dither surrogates and the matrices of p-values for
+            NEST and for SpiNNaker are stored. The results are stored in an HDF5
+            file which is copied back to the collab storage and to `dCache` from
+            where it can be read in by the visualization tools under the `ViSTA`
+            framework.
         Categories:
             - FDAT
         Compatible_queues: ['cscs_viz']
         Accepts:
             inputdata_spinnaker:
                 type: application/unknown
-                description: Input file that contains spiking data from a
-                    HDF5 file generated from spinnaker simulation.
+                description: |
+                    Neo HDF file that contains spike trains from a SpiNNaker
+                    simulation.
             inputdata_nest:
                 type: application/unknown
                 description: |
-                    Input file that contains spiking data from a
-                    HDF5 file from nest simulation.
+                    Neo HDF file that contains spike trains from a NEST
+                    simulation.
             run_script:
                 type: text/x-python
-                description: Script which will be executed on an HPC.
+                description: |
+                    Script which calculates the significance matrix on an HPC as
+                    part of a job array.
             collect_script:
                 type: text/x-python
-                description: Script which will be executed on an HPC.
+                description: |
+                    Script that merges the results of the individual jobs.
             num_tasks:
                 type: long
-                description: Number of tasks which will be run on the HPC.
+                description: Number of jobs to run in parallel [default=100].
         Returns:
             res: application/unknown
     '''
