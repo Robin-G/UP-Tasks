@@ -143,10 +143,10 @@ for dta, sts in zip(['spinnaker', 'nest'], [sts_spinnaker, sts_nest]):
 
 # values per edge
 num_tasks = len(glob.glob(
-    './results/release_demo/correlation_output_*.h5'))
+    './results/correlation_output_*.h5'))
 for job_parameter in range(num_tasks):
     filename = \
-        './results/release_demo/correlation_output_' + \
+        './results/correlation_output_' + \
         str(job_parameter) + '.h5'
     if not os.path.exists(filename):
         raise IOError('Cannot find file %s.', filename)
@@ -223,10 +223,13 @@ f = open(filename, 'w')
 pickle.dump(cc['nest'], f)
 f.close()
 
-# Remove folder with all intermediate h5 files
-import shutil
-if os.path.exists('./results/release_demo'):
-    shutil.rmtree('./results/release_demo')
+# Remove all intermediate h5 files
+for files in os.listdir('./results'):
+    if files.startswith('correlation'):
+        try:
+            os.remove(files)
+        except Exception as e:
+            print e
 # Remove json file
 if os.path.exists('data_paths.json'):
     os.remove('data_paths.json')
