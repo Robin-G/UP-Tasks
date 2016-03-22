@@ -117,19 +117,20 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
     # Get results and store them to task-local storage
     # create bundle & export bundle
     workdir = unicore_client.get_working_directory(job_url, auth)
-    fn = ''
+
+    h5_bundle_mime_type = "application/unknown"
+    bundle = cch_vista_submit_task.task.uri.build_bundle(h5_bundle_mime_type)
     for filename in results:
         content = unicore_client.get_file_content(
             workdir + "/files/results/" + filename, auth)
         if filename.endswith(".h5"):
             with open(filename, "w") as local_file:
                 local_file.write(content)
-            fn = filename
-
-    return cch_vista_submit_task.task.uri.save_file(mime_type='application/unknown',
-                                                    src_path=fn,
-                                                    dst_path=os.path.join(
-                                                        'contents', fn))
+        bundle.add_file(src_path=filename,
+                        dst_path=os.path.join('contents', filename),
+                        bundle_path=filename,
+                        mime_type="application/unknown")
+    return bundle.save('elephant_bundle')
 
 
 if __name__ == '__main__':
