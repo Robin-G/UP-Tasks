@@ -19,7 +19,7 @@ def load_local_file(name):
 
 @task
 def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
-                          collect_script, num_tasks=100):
+                          collect_script, num_tasks=1):
     '''
         Task Manifest Version: 1
         Full Name: cch_vista_submit_task
@@ -60,7 +60,7 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
                     Script that merges the results of the individual jobs.
             num_tasks:
                 type: long
-                description: Number of jobs to run in parallel [default=100].
+                description: Number of jobs to run in parallel [default=1].
         Returns:
             res: application/unknown
     '''
@@ -99,7 +99,10 @@ def cch_vista_submit_task(inputdata_spinnaker, inputdata_nest, run_script,
                           'nest_data': 'nest_data.h5',
                           'NUM_TASKS': str(num_tasks),
                           }
-    job['Resources'] = {'ArraySize': str(num_tasks), 'Runtime': '3h'}
+    if num_tasks == 1:
+        job['Resources'] = {'Runtime': '10h'}
+    else:
+        job['Resources'] = {'ArraySize': str(num_tasks), 'Runtime': '3h'}
     job['Execution environment'] = {'Name': 'Elephant',
                                     'PostCommands': ['COLLECT']}
 
